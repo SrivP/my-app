@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import {useEffect, useState} from 'react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import toast, { Toaster } from 'react-hot-toast';
 import {
   Popover,
   PopoverContent,
@@ -41,9 +42,19 @@ export default function page() {
   }, [running])
 
   function handleStart() {
+    if (time === 0) {
+      toast("Please set a time", {icon: '🕰️'});
+      setRunning(false)
+    } else {
     setRunning(true);
     setVariant("destructive");
+    }
 
+  }
+
+  function handleStop() {
+    setRunning(false);
+    setVariant("default");
   }
 
   function formatTime(time: number) {
@@ -67,6 +78,8 @@ export default function page() {
 
 
   return (
+    <>
+    <Toaster />
     <div className="grid grid-cols-[1fr_5fr] h-screen">
       <Sidebar />
     <div className="grid place-items-center h-screen">
@@ -89,7 +102,7 @@ export default function page() {
               <Label htmlFor="minutes">Minutes</Label>
               <Input
                 id="minutes"
-                defaultValue="25"
+                placeholder="25"
                 className="col-span-2 h-8"
                 onChange={(e) => setMinutes(parseInt(e.target.value))}
                 
@@ -99,7 +112,7 @@ export default function page() {
               <Label htmlFor="seconds">Seconds</Label>
               <Input
                 id="seconds"
-                defaultValue="00"
+                placeholder="00"
                 className="col-span-2 h-8"
                 onChange={(e) => setSeconds(parseInt(e.target.value))}
               />
@@ -113,11 +126,12 @@ export default function page() {
       </PopoverContent>
       </Popover>
         <div className="mt-[45px] space-x-10">
-            <Button className="" variant={variant} onClick={handleStart}>{running ? "Stop" : "Start"}</Button> 
+            <Button className="" variant={variant} onClick={running ? handleStop : handleStart}>{running ? "Stop" : "Start"}</Button> 
             <Button className=" " variant="default" onClick={handleReset}>Reset</Button>
         </div>
     </div>
     </div>
     </div>
+    </>
   );
 }
