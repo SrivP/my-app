@@ -6,8 +6,8 @@ export class TaskObj extends NoteObj {
   private priority: number;
   // list : List;
 
-  constructor(title: string, priority: number, tags?: string, dueDate?: Date) {
-    super(title, tags);
+  constructor(user_id : string, title: string, priority: number, tags?: string, dueDate?: Date) {
+    super(user_id, title, tags);
     this.dueDate = dueDate;
     this.priority = priority;
 
@@ -30,9 +30,14 @@ export class TaskObj extends NoteObj {
     this.priority = newPriority;
   }
 
+  getIsCompleted() : boolean {
+    return this.isComplete
+  }
+
   // @ts-ignore 
   static fromAPI(data: any): TaskObj {
     return new TaskObj(
+      data.user_id,
       data.title,
       data.priority,
       data.tags,

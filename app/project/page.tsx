@@ -1,3 +1,5 @@
+"use client"
+
 import Sidebar from '@/components/custom/sidebar'
 import Task from '@/app/project/Task'
 

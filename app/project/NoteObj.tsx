@@ -1,18 +1,25 @@
+import { User } from "@supabase/supabase-js";
+
 export class NoteObj {
+    private user_id : string
     private title: string;
-  
     private tags: string;
     private complete: boolean;
     // list : List;
   
-    constructor(title: string, tags?: string) {
+    constructor(user_id : string, title: string, tags?: string) {
       this.title = title ?? "";
       this.tags = tags ?? "";
       this.complete = false;
+      this.user_id = user_id;
     }
   
-    setTitle(newTitle: string) {
-      this.title = newTitle;
+    setTitle(newtitle: string) {
+      this.title = newtitle;
+    }
+
+    getUser_id() : string {
+      return this.user_id
     }
   
   

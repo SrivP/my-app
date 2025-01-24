@@ -11,36 +11,52 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import Sidebar from '@/components/custom/sidebar';
+import { getName } from '../login/actions';
+import { redirect } from 'next/navigation';
+import { count } from 'console';
 
 
 export default function page() {
-  const [time, setTime] = useState(0);
+  const [email, setEmail] = useState<string | null>(null)
+  const [time, setTime] = useState(1500);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [running, setRunning] = useState(false);
   const [variant, setVariant] = useState<"default" | "secondary"| "destructive">("default");
   
+  useEffect(() => {
+    async function fetchEmail() {
+        const userEmail = await getName();
+        setEmail(userEmail?.email ?? null);
+    }
+    fetchEmail();
+}, []);
 
   useEffect(() => {
     let countdown: NodeJS.Timeout | undefined;
 
     if (running) {
-    countdown = setInterval(() => {
-      if (running) {
-        setTime((prev) => prev - 1);
+      countdown = setInterval(() => {
+        setTime((prev) => {
+          if (prev <= 1) {
+            clearInterval(countdown);
+            setRunning(false);
+            setVariant("default");
+            playSound('@/public/timer_done.mp3'); // Replace with the actual path to your sound file
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => {
+      if (countdown) {
+        clearInterval(countdown);
       }
-    },1000) 
-  }
+    };
+  }, [running]);
   
-  return () => {
-    if (countdown) {
-      clearInterval(countdown);
-  }
-  
-  }
-
-  }, [running])
-
   function handleStart() {
     if (time === 0) {
       toast("Please set a time", {icon: '🕰️'});
@@ -65,7 +81,6 @@ export default function page() {
   }
 
   function handleTime() {
-
     setTime(minutes * 60 + seconds);
   }
 
@@ -73,6 +88,13 @@ export default function page() {
     setTime(0);
     setRunning(false);
     setVariant("default");
+  }
+
+  function playSound(url : string) {
+    const audio = new Audio(url);
+    if (running == false && time == 0) {
+      audio.play()
+    }
   }
 
 

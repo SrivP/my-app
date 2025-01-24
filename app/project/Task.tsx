@@ -1,4 +1,4 @@
-"use client";
+
 import { useEffect, useState } from "react";
 
 import {
@@ -24,6 +24,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { NoteObj } from "./NoteObj";
 import toast, { Toaster } from "react-hot-toast";
 import { IoIosAddCircle } from "react-icons/io";
+import { addTodo } from "./actions";
 
 interface apiResponseTask {
   allTasks: TaskObj[];
@@ -31,6 +32,7 @@ interface apiResponseTask {
 }
 
 export default function Task() {
+
   const [allTasks, setAllTasks] = useState<TaskObj[]>([]);
   const [allHabits, setAllHabits] = useState<NoteObj[]>([]);
   const [title, setTitle] = useState("");
@@ -76,28 +78,24 @@ export default function Task() {
     setAllTasks(arr);
   }
 
-  function newTask(
+  async function newTask(
     title: string,
     priority: number,
     dueDate?: Date,
     tags?: string,
   ) {
-    const updatedTasks: TaskObj[] = [];
-    for (let i = 0; i < allTasks.length; i++) {
-      updatedTasks.push(allTasks[i]);
-    }
-    if (title.length != 0) {
-      const nTask = new TaskObj(title, priority, tags, dueDate);
+    const updatedTasks: TaskObj[] = [...allTasks];
+    if (title.length !== 0) {
+      const nTask = new TaskObj("8a06959d-477f-45a0-bd87-f9191618de99", title, priority, tags, dueDate);
       updatedTasks.push(nTask);
+      addTodo(nTask);
       setTitle("");
       setPriority(0);
       setDate(new Date());
-      setPriority(0);
     } else {
       setTitle("");
       setPriority(0);
       setDate(new Date());
-      setPriority(0);
       return;
     }
 
@@ -105,6 +103,7 @@ export default function Task() {
   }
 
   function updateTask(
+    user_id : string,
     id: number,
     title: string,
     priority: number,
@@ -116,8 +115,10 @@ export default function Task() {
     for (let i = 0; i < allTasks.length; i++) {
       if (i == id) {
         const upTask = new TaskObj(
+          user_id || allTasks[i].getUser_id(),
           title || allTasks[i].getTitle(),
           priority || allTasks[i].getPriority(),
+          
         );
         upTask.setDueDate(date || allTasks[i].getDueDate());
         upTask.setTags(tags || allTasks[i].getTags());
@@ -133,7 +134,7 @@ export default function Task() {
     setAllTasks(uTsks);
   }
 
-  function validateDate(task): string {
+  function validateDate(task : any): string {
     if (task.getDueDate() != undefined) {
       var options = { year: 'numeric', month: 'long', day: 'numeric' };
       return task.getDueDate().toLocaleString([], options);
@@ -141,6 +142,8 @@ export default function Task() {
       return new Date().toLocaleString();
     }
   }
+
+
 
   return (
     
@@ -211,7 +214,7 @@ export default function Task() {
                     className="mb-2"
                   />
                   <Button
-                    onClick={() => updateTask(idx, title, priority, date, tags)}
+                    onClick={() => updateTask("8a06959d-477f-45a0-bd87-f9191618de99", idx, title, priority, date, tags)}
                   >
                     Save Task
                   </Button>
