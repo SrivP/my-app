@@ -32,6 +32,30 @@ interface apiResponseTask {
 }
 
 export default function Task() {
+  async function addNewTask() {
+    const response = await fetch('/api/data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        priority,
+        tags,
+        dueDate: date?.toISOString(),
+        user_id: '8a06959d-477f-45a0-bd87-f9191618de99', // Replace with actual user ID
+      }),
+    });
+
+    if (response.ok) {
+      console.log('Task added successfully');
+      // Handle success (e.g., clear form, show success message)
+    } else {
+      const errorData = await response.json();
+      console.error('Error adding task:', errorData.error);
+      // Handle error (e.g., show error message)
+    }
+  }
 
   const [allTasks, setAllTasks] = useState<TaskObj[]>([]);
   const [allHabits, setAllHabits] = useState<NoteObj[]>([]);
@@ -42,7 +66,7 @@ export default function Task() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/api/data");
+      const response = await fetch("/api/data", {cache: 'force-cache'});
       const result: apiResponseTask = await response.json();
       const tasks = result.allTasks.map((task) => TaskObj.fromAPI(task));
       const habits = result.allHabits.map((habit) => NoteObj.fromAPIH(habit));
@@ -88,7 +112,7 @@ export default function Task() {
     if (title.length !== 0) {
       const nTask = new TaskObj("8a06959d-477f-45a0-bd87-f9191618de99", title, priority, tags, dueDate);
       updatedTasks.push(nTask);
-      addTodo(nTask);
+      addNewTask()
       setTitle("");
       setPriority(0);
       setDate(new Date());
@@ -118,14 +142,9 @@ export default function Task() {
           user_id || allTasks[i].getUser_id(),
           title || allTasks[i].getTitle(),
           priority || allTasks[i].getPriority(),
-          
+          tags || allTasks[i].getTags(),
+          dueDate || allTasks[i].getDueDate()          
         );
-        upTask.setDueDate(date || allTasks[i].getDueDate());
-        upTask.setTags(tags || allTasks[i].getTags());
-        setTitle("");
-        setPriority(0);
-        setDate(new Date());
-        setPriority(0);
         uTsks.push(upTask);
       } else {
         uTsks.push(allTasks[i]);
@@ -229,7 +248,7 @@ export default function Task() {
         <PopoverTrigger className="w-[2px] h-[2px] ml-[50vw]">
           <IoIosAddCircle className="w-[30px] h-[30px]" />
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent side="bottom" align="center" className="overflow-auto">
           <h4>New Task</h4>
           <Input
             type="text"
@@ -263,7 +282,7 @@ export default function Task() {
 
       <div className="mb-[100px] mt-[100px] w-screen h-[1px] bg-slate-200"></div>
 
-      <div className=" grid grid-cols-6 gap-8">
+      <div className="m-[5%] grid grid-cols-6 gap-8">
         {allHabits.map((habit, idxh) => (
           <Card key={idxh}>
             <CardHeader>

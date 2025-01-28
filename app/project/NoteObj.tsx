@@ -1,7 +1,8 @@
 import { User } from "@supabase/supabase-js";
 
 export class NoteObj {
-    private user_id : string
+    private id : number;
+    private user_id : string;
     private title: string;
     private tags: string;
     private complete: boolean;

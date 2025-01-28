@@ -1,6 +1,7 @@
 import { NoteObj } from "./NoteObj";
 
 export class TaskObj extends NoteObj {
+  
   private dueDate: any;
   private isComplete: boolean;
   private priority: number;

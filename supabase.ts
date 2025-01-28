@@ -34,13 +34,14 @@ export type Database = {
   }
   public: {
     Tables: {
-      titles: {
+      tasks: {
         Row: {
           dueDate: string | null
           id: number
           priority: number | null
           tags: string | null
           title: string | null
+          user_id: string | null
         }
         Insert: {
           dueDate?: string | null
@@ -48,6 +49,7 @@ export type Database = {
           priority?: number | null
           tags?: string | null
           title?: string | null
+          user_id?: string | null
         }
         Update: {
           dueDate?: string | null
@@ -55,39 +57,7 @@ export type Database = {
           priority?: number | null
           tags?: string | null
           title?: string | null
-        }
-        Relationships: []
-      }
-      todos: {
-        Row: {
-          due_date: string | null
-          id: number
-          inserted_at: string
-          is_complete: boolean | null
-          priority: number
-          tags: string[] | null
-          title: string | null
-          user_id: string
-        }
-        Insert: {
-          due_date?: string | null
-          id?: number
-          inserted_at?: string
-          is_complete?: boolean | null
-          priority?: number
-          tags?: string[] | null
-          title?: string | null
-          user_id: string
-        }
-        Update: {
-          due_date?: string | null
-          id?: number
-          inserted_at?: string
-          is_complete?: boolean | null
-          priority?: number
-          tags?: string[] | null
-          title?: string | null
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }
