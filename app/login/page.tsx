@@ -7,17 +7,17 @@ import { createClient } from "@/utils/supabase/server";
 
 
 
-export async function getUserId() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  return user?.id;
-}
 
-export default async function Login({
+
+export default async function Page(
+  {
   searchParams,
 }: {
   searchParams: { message: string };
-}) {
+}) 
+
+
+{
   const supabase = await createClient();
 
   const {
@@ -68,4 +68,10 @@ export default async function Login({
           </form>
     </div>
   );
+}
+
+export async function getUserId() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return user?.id;
 }
