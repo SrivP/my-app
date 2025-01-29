@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/popover"
 import Sidebar from '@/components/custom/sidebar';
 import { getName } from '../login/actions';
-import { redirect } from 'next/navigation';
-import { count } from 'console';
 
 
 export default function page() {
@@ -42,7 +40,7 @@ export default function page() {
             clearInterval(countdown);
             setRunning(false);
             setVariant("default");
-            playSound('@/public/timer_done.mp3'); // Replace with the actual path to your sound file
+            playSound('/timer_done.mp3'); 
             return 0;
           }
           return prev - 1;

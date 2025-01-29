@@ -5,18 +5,29 @@ export class TaskObj extends NoteObj {
   private dueDate: any;
   private isComplete: boolean;
   private priority: number;
+  private show : boolean;
   // list : List;
 
-  constructor(user_id : string, title: string, priority: number, tags?: string, dueDate?: Date) {
-    super(user_id, title, tags);
+  constructor(id : number, user_id : string, title: string, priority: number, tags?: string, dueDate?: Date) {
+    super(id, user_id, title, tags);
     this.dueDate = dueDate;
     this.priority = priority;
-
+    this.show = true;
     this.isComplete = false;
   }
 
+
+
   setDueDate(newDueDate: Date) {
     this.dueDate = newDueDate;
+  }
+
+  setShow(newShow: boolean) {
+    this.show = newShow;
+  }
+
+  getShow() : boolean {
+    return this.show;
   }
 
   getDueDate(): Date {
@@ -38,6 +49,7 @@ export class TaskObj extends NoteObj {
   // @ts-ignore 
   static fromAPI(data: any): TaskObj {
     return new TaskObj(
+      data.id,
       data.user_id,
       data.title,
       data.priority,

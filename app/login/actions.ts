@@ -1,3 +1,5 @@
+// copied from supabase documentationn + edited for my application
+
 'use server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'

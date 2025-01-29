@@ -8,13 +8,22 @@ export class NoteObj {
     private complete: boolean;
     // list : List;
   
-    constructor(user_id : string, title: string, tags?: string) {
+    constructor(id : number, user_id : string, title: string, tags?: string) {
       this.title = title ?? "";
       this.tags = tags ?? "";
       this.complete = false;
       this.user_id = user_id;
+      this.id = id;
     }
   
+    getId() {
+      return this.id;
+    }
+
+    getUserId() {
+      return this.user_id;
+    }
+
     setTitle(newtitle: string) {
       this.title = newtitle;
     }
@@ -41,7 +50,7 @@ export class NoteObj {
   
     // @ts-ignore 
     static fromAPIH(data: any): NoteObj {
-      return new NoteObj(data.title, data.tags);
+      return new NoteObj(data.id, data.title, data.tags);
     }
   }
   
