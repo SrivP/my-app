@@ -1,6 +1,6 @@
 import { TaskObj } from "@/app/project/TaskObj";
 import { supabase } from "./supabase";
-import { getUserId } from "@/app/login/page";
+import { getUserId } from "@/app/login/actions";
 import { NextRequest, NextResponse } from "next/server";
 
 

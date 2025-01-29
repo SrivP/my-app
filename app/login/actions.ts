@@ -55,3 +55,9 @@ export async function getName() {
   const { data: { user } } = await supabase.auth.getUser();
   return user;
 }
+
+export async function getUserId() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return user?.id;
+}
