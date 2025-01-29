@@ -14,21 +14,14 @@ import Sidebar from '@/components/custom/sidebar';
 import { getName } from '../login/actions';
 
 
-export default function page() {
-  const [email, setEmail] = useState<string | null>(null)
+export default function Page() {
   const [time, setTime] = useState(1500);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [running, setRunning] = useState(false);
   const [variant, setVariant] = useState<"default" | "secondary"| "destructive">("default");
   
-  useEffect(() => {
-    async function fetchEmail() {
-        const userEmail = await getName();
-        setEmail(userEmail?.email ?? null);
-    }
-    fetchEmail();
-}, []);
+
 
   useEffect(() => {
     let countdown: NodeJS.Timeout | undefined;
