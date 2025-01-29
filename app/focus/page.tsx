@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import Sidebar from '@/components/custom/sidebar';
-import { getName } from '../login/actions';
+
 
 
 export default function Page() {
